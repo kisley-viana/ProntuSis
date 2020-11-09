@@ -14,7 +14,7 @@
 </head>
 <body style="background-color: dodgerblue;">
 
-    <div class="container-fluid" style="width: 30%; padding: 3%;background-color: white; border: solid; border-color: gray; border-radius: 5%; margin-top: 5%;">
+    <div class="container-fluid" style="width: 30%; padding: 3%; background-color: white; border: solid; border-color: gray; border-radius: 5%; margin-top: 5%;">
         <img class="img-fluid rounded mx-auto d-block" src="/img/logo.png" alt="logo" style="width: 10rem">
         <h3 align="center">ProntuSis</h3>
         <form>

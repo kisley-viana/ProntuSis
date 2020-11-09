@@ -19,3 +19,10 @@
 Route::get('/', function(){
     return view('paginas.login');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+//Admin
+Route::get('/admin','ProntuarioController@listar')->name('admin');
+Route::post('/admin/salvar','ProntuarioController@salvar')->name('salvar');
