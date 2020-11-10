@@ -28,6 +28,9 @@ class ProntuarioController extends Controller
             $prontuarios->setLetra($request->letra);
             $prontuarios->setArmazenado($request->armazenado);
             $prontuarios->save();
+            $msg='<div class='.'"alert alert-success"'. 'role="alert"'.'"Prontuario salvo com sucesso!"'.'<div>';
+            return redirect()->route('admin',['prontuarios'=>$prontuarios, 'msg',$msg]);
+            
         }
         catch(\Exception $ex)
         {
