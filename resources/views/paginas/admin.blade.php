@@ -7,8 +7,19 @@
 @endif
 <div class="container">
     
+<script>
+
+$("#tbProntuario tbody").on('click','tr button[name=prontuarioDelete]',function()
+{
+    var id = $(this).attr('prontuario');
+
+    $("#id_prontuario_excluir").val(id);   
+    $("#mdlProntuarioDeletar").modal({backdrop: "static"}).show();
+});
+</script>
+
     <h1><strong>PRONTUARIOS</strong></h1>
-    
+
     <form class="form-inline">
         <div class="form-group mx-sm-1 mb-2">
             <input type="text" class="form-control" placeholder="Digite o CNS" style="width: 20rem" name="pesquisa">
@@ -25,6 +36,7 @@
             </tr>
         </thead>
         <tbody>
+
         @foreach($prontuarios as $p)
             <tr id="id_{{$p->getId()}}">
                 <th scope="row" id="cns_{{$p->getId()}}">{{$p->getId()}}</th>
@@ -39,8 +51,7 @@
                     </td>
                     <td>
                         <a href=""><img src="/img/edit.svg" alt="editar" width="27px"></a>
-                        <button type="button" class="btn" name="prontuarioDelete" id="btnDeletar" value="{{$p->getId()}}"
-                        data-toggle="modal" data-target="#mdlProntuarioDeletar">&nbsp;<img src="/img/trash.svg" alt="deletar" width="27px"></button>
+                        <button type="button" class="btn" name="prontuarioDelete" prontuario="{{$p->getId()}}"><img src="img/trash.svg" width="27px"/></button>
                         <a href="">&nbsp;<img src="/img/view.svg" alt="vizualizar" width="27px"></a>
                     </td>
             </tr>
@@ -118,14 +129,5 @@
                 </div>
             </form>
         </div>
-    </div>
-    <script>
-    /*
-       var btnDeletar = document.getElementById("btnDeletar").value;
-       var idDeletar = document.getElementById("id_prontuario_excluir");
-
-       idDeletar = btnDeletar;
-    */
-   
-    </script>
+</div>
 @endsection
