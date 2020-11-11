@@ -27,3 +27,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin','ProntuarioController@listar')->name('admin');
 Route::post('/admin/salvar','ProntuarioController@salvar')->name('salvar');
 Route::post('admin/deletar','ProntuarioController@deletar')->name('deletar');
+//Route::get('admin/vizualizar','ProntuarioController@listar')->name('vizualizar');
+
+//Pesquisa
+Route::get('/admin/pesquisa','ProntuarioController@pesquisa')->name('pesquisa');
