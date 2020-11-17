@@ -1,12 +1,24 @@
 @extends('layouts.app')
 @section('content')
-@if(Session::has('msg'))
+@if(session('sucesso'))
 
-    <div class="alert alert-success" role="alert">
-        {{$msg}}
+    <div class="alert alert-success" role="alert" id="msg">
+        {{ session('sucesso') }}
     </div>
     
 @endif
+@if(session('erro'))
+    <div class="alert alert-danger" role="alert" id="msg">
+        {{ session('erro') }}
+    </div>
+
+@endif
+
+
+<script>
+    var mensagem = getElemetById("msg");
+    mensagem.setTimeOut(3000);
+</script>
 
 
 <div class="container">

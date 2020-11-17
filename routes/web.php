@@ -16,15 +16,12 @@
 });
 */
 
-Route::get('/', function(){
-    return view('paginas.login');
-});
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 //Admin
-Route::get('/admin','ProntuarioController@listar')->name('admin');
+Route::get('/','HomeController@index')->name('admin');
+Route::get('/','ProntuarioController@listar')->name('admin');
 Route::post('/admin/salvar','ProntuarioController@salvar')->name('salvar');
 Route::post('admin/deletar','ProntuarioController@deletar')->name('deletar');
 //Route::get('admin/vizualizar','ProntuarioController@listar')->name('vizualizar');

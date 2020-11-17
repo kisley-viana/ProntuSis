@@ -10,9 +10,8 @@ class ProntuarioController extends Controller
     public function listar()
     {
         $prontuarios = Prontuario::all();
-        //$msg='Prontuario salvo com sucesso!';
-        $msg='';
-        return view('paginas.admin',['prontuarios'=>$prontuarios])->with('msg',$msg);
+        
+        return view('paginas.admin',['prontuarios'=>$prontuarios]);
     }
     public function salvar(Request $request)
     {
@@ -30,13 +29,14 @@ class ProntuarioController extends Controller
             $prontuarios->save();
             //$msg='<div class='.'"alert alert-success"'. 'role="alert"'.'"Prontuario salvo com sucesso!"'.'<div>';
             //
-            $msg="cadastrado com sucesso";
-            return redirect()->route('admin',['prontuarios'=>$prontuarios, 'msg',$msg]);
+            session()->flash('sucesso','Prontuario salvo com sucesso');
+            return redirect()->route('admin');
             
         }
         catch(\Exception $ex)
         {
-            return dd($ex);
+            session()->flash('erro','Houve um erro ao salvar o Prontuario. Reveja os dados e tente novamente!');
+            return redirect()->route('admin');
         }
     }
 
@@ -47,23 +47,35 @@ class ProntuarioController extends Controller
         {   $prontuarios = Prontuario::all();
             $prontuario = Prontuario::find($request->id_excluir);
             $prontuario->delete();
-            $msg="Excluído com sucesso!";
+            
             //return view('paginas.admin',['prontuarios'=>$prontuarios])->with('msg', $msg);
-            return redirect()->action('ProntuarioController@listar')->with('msg',$msg);
+            session()->flash('sucesso','Prontuario deletado com sucesso!');
+            return redirect()->route('admin');
         }
         catch(\Exception $ex)
-        {
-            return ($ex);
+        {   
+            session()->flash('erro','Erro ao deletar Prontuario. Erro: ',$ex);
+            return redirect()->route('admin');
         }
     }
 
     public function pesquisa(Request $request)
     {
-        //$prontuarios = Prontuario::all();
-        $pesquisa = ($request->id_pesquisa);
-        $prontuarios = Prontuario::where('id',$pesquisa)->get();
+        try
+        {
+                $pesquisa = ($request->id_pesquisa);
+                $prontuarios = Prontuario::where('id',$pesquisa)->get();
 
-            return view('paginas.admin',['prontuarios'=> $prontuarios]);
-
+                if($prontuarios != null){
+                    session()->flash('sucesso', 'Prontuário(s) encontrados!');
+                    return view('paginas.admin',['prontuarios'=> $prontuarios]);
+                    
+                }
+        }
+        catch(\Exception $ex)
+        {
+            session()->flash('erro','Erro na busca. Erro: '+$ex);
+            return redirect()->route('admin');
+        }
     }
 }

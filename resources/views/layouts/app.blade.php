@@ -56,8 +56,8 @@
 
                         <a class="navbar link" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                                     document.getElementById('logout-form').submit();" style="decoration: none "><i class="fas fa-sign-out-alt"></i>
+                                        {{ __(' Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

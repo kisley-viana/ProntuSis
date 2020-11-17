@@ -17,14 +17,15 @@
     <div class="container-fluid" style="width: 30%; padding: 3%; background-color: white; border: solid; border-color: gray; border-radius: 5%; margin-top: 5%;">
         <img class="img-fluid rounded mx-auto d-block" src="/img/logo.png" alt="logo" style="width: 10rem">
         <h3 align="center">ProntuSis</h3>
-        <form>
+        <form method="POST" action="{{ route('login') }}">
+        @csrf
         <div class="form-group">
             <label for="email"><i class="fas fa-at"></i> E-mail:</label>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
         </div>
         <div class="form-group">
             <label for="senha"><i class="fas fa-key"></i> Senha:</label>
-            <input type="password" class="form-control" id="senha">
+            <input id="senha" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
         </div>
         <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Logar</button>
         </form>
