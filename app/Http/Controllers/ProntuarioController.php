@@ -7,6 +7,12 @@ use App\Prontuario;
 
 class ProntuarioController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function listar()
     {
         $prontuarios = Prontuario::all();

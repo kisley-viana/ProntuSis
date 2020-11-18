@@ -18,10 +18,13 @@
 
 Auth::routes();
 
-
+//Route::get('/','HomeController@index')->name('login');
+Route::get('/', function() {
+    return view('paginas.login');
+});
 //Admin
-Route::get('/','HomeController@index')->name('admin');
-Route::get('/','ProntuarioController@listar')->name('admin');
+//Route::get('/admin','HomeController@index')->name('admin');
+Route::get('/admin','ProntuarioController@listar')->name('admin');
 Route::post('/admin/salvar','ProntuarioController@salvar')->name('salvar');
 Route::post('admin/deletar','ProntuarioController@deletar')->name('deletar');
 //Route::get('admin/vizualizar','ProntuarioController@listar')->name('vizualizar');
