@@ -5,6 +5,8 @@
     <div class="alert alert-success" role="alert" id="msg">
         {{ session('sucesso') }}
     </div>
+
+  
     
 @endif
 @if(session('erro'))
@@ -16,8 +18,8 @@
 
 
 <script>
-    var mensagem = getElemetById("msg");
-    mensagem.setTimeOut(3000);
+    //var mensagem = getElemetById("msg");
+   // mensagem.setTimeOut(3000);
 </script>
 
 
@@ -31,6 +33,65 @@
         </div>
         <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-search"></i> Pesquisar</button>
     </form>
+
+    <button class="btn" data-toggle="modal" data-target="#mdlFiltro" style="background-color: green"><strong>Filtro</strong></button><br><br>
+    <!-- Modal Filtro -->
+    <div id="mdlFiltro" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form method="POST" enctype="multipart/form-data" action="{{route('deletar')}}">
+                @csrf
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filtro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="de">Escolha a letra de início:</label>
+                    <select class="input" id="de" name="deFiltro">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="G">G</option>
+                        <option value="H">H</option>
+                        <option value="I">I</option>
+                        <option value="J">J</option>
+                        <option value="K">K</option>
+                        <option value="L">L</option>
+                        <option value="M">M</option>
+                        <option value="N">N</option>
+                        <option value="O">O</option>
+                        <option value="P">P</option>
+                        <option value="Q">Q</option>
+                        <option value="R">R</option>
+                        <option value="S">S</option>
+                        <option value="T">T</option>
+                        <option value="U">U</option>
+                        <option value="V">V</option>
+                        <option value="W">W</option>
+                        <option value="X">X</option>
+                        <option value="Y">Y</option>
+                        <option value="Z">Z</option>
+
+                    </select>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Confimar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div> 
+
+
+
+
     <table class="table" id="tbProntuario">
         <thead class="thead-dark">
             <tr>
