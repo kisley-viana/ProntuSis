@@ -15,7 +15,7 @@ class ProntuarioController extends Controller
 
     public function listar()
     {
-        $prontuarios = Prontuario::all();
+        $prontuarios = Prontuario::orderBy('nomecompleto','asc')->get();
         
         return view('paginas.admin',['prontuarios'=>$prontuarios]);
     }
@@ -70,7 +70,8 @@ class ProntuarioController extends Controller
         try
         {
                 $pesquisa = ($request->id_pesquisa);
-                $prontuarios = Prontuario::where('id',$pesquisa)->get();
+                $prontuarios = Prontuario::where('id',$pesquisa)
+                ->orderBy('nomecompleto','asc')->get();
 
                 if($prontuarios != null){
                     session()->flash('sucesso', 'Prontuário(s) encontrados!');
@@ -82,6 +83,23 @@ class ProntuarioController extends Controller
         {
             session()->flash('erro','Erro na busca. Erro: '+$ex);
             return redirect()->route('admin');
+        }
+    }
+
+    public function filtro(Request $request)
+    {
+        try
+        {
+            $letra = $request->letra.'%';
+            $prontuarios = Prontuario::where('nomecompleto','like',$letra)
+            ->orderBy('nomecompleto','asc')->get();
+            return view('paginas.admin',['prontuarios'=>$prontuarios]);
+        }
+        catch(\Exception $ex)
+        {
+            //session()->flash('erro','E');
+           // return redirect()->route('admin');
+           return dd($ex);
         }
     }
 }

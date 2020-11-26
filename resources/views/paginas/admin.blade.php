@@ -34,11 +34,11 @@
         <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-search"></i> Pesquisar</button>
     </form>
 
-    <button class="btn" data-toggle="modal" data-target="#mdlFiltro" style="background-color: green"><strong>Filtro</strong></button><br><br>
+    <button class="btn" data-toggle="modal" data-target="#mdlFiltro" style="background-color: green; color: white"><strong>Filtro</strong></button><br><br>
     <!-- Modal Filtro -->
     <div id="mdlFiltro" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <form method="POST" enctype="multipart/form-data" action="{{route('deletar')}}">
+            <form method="GET" enctype="multipart/form-data" action="{{route('filtro')}}">
                 @csrf
                 <div class="modal-content">
                 <div class="modal-header">
@@ -49,7 +49,7 @@
                 </div>
                 <div class="modal-body">
                     <label for="de">Escolha a letra de início:</label>
-                    <select class="input" id="de" name="deFiltro">
+                    <select class="form-control" id="de" name="letra">
                         <option value="A">A</option>
                         <option value="B">B</option>
                         <option value="C">C</option>
@@ -78,7 +78,7 @@
                         <option value="Z">Z</option>
 
                     </select>
-
+                   
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Confimar</button>

@@ -31,3 +31,5 @@ Route::post('admin/deletar','ProntuarioController@deletar')->name('deletar');
 
 //Pesquisa
 Route::get('/admin/pesquisa','ProntuarioController@pesquisa')->name('pesquisa');
+//Filtro
+Route::get('/admin/filtro','ProntuarioController@filtro')->name('filtro');
