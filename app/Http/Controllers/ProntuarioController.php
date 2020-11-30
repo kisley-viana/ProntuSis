@@ -12,13 +12,15 @@ class ProntuarioController extends Controller
         $this->middleware('auth');
     }
 
-
+    //Listagem de Prontuarios
     public function listar()
     {
         $prontuarios = Prontuario::orderBy('nomecompleto','asc')->get();
         
         return view('paginas.admin',['prontuarios'=>$prontuarios]);
     }
+
+    //Salvar Dados
     public function salvar(Request $request)
     {
         try
@@ -65,6 +67,7 @@ class ProntuarioController extends Controller
         }
     }
 
+    //Pesquisa
     public function pesquisa(Request $request)
     {
         try
@@ -86,6 +89,7 @@ class ProntuarioController extends Controller
         }
     }
 
+    //Filtro
     public function filtro(Request $request)
     {
         try
