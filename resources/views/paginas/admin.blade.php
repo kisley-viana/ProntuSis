@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+
 @if(session('sucesso'))
 
     <div class="alert alert-success" role="alert" id="msg">
@@ -16,14 +17,7 @@
 
 @endif
 
-
-<script>
-    //var mensagem = getElemetById("msg");
-   // mensagem.setTimeOut(3000);
-</script>
-
-
-<div class="container">
+<div class="container" id="divPrincipal">
 
     <h1><strong>PRONTUARIOS</strong></h1>
 
@@ -34,7 +28,33 @@
         <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-search"></i> Pesquisar</button>
     </form>
 
-    <button class="btn" data-toggle="modal" data-target="#mdlFiltro" style="background-color: green; color: white"><strong>Filtro</strong></button><br><br>
+    <button class="btn" data-toggle="modal" data-target="#mdlFiltro" style="background-color: green; color: white"><i class="fas fa-filter"></i> Filtro</button>
+    <!-- Botão Imprimir -->
+    <button class="btn btn-primary" id="btnImprimir" onclick="imprimir()"><i class="fas fa-print"></i> Imprimir</button><br><br>
+    
+    <script>
+        function imprimir(){
+            var conteudo = document.getElementById('tabela').innerHTML,
+            tela_impressao = window.open('about:blank');
+
+            tela_impressao.document.write(conteudo);
+            tela_impressao.window.print();
+            tela_impressao.window.close();
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            var coluna = $('#td').attr('value');
+            console.log(coluna);
+            if(coluna != 'true'  ){
+                $('#divPrincipal').append('<div class="alert alert-danger" role="alert"><strong> Não foram encontrados prontuários</strong></div>');
+            }
+        });
+    </script>
+    
+    
+    
+    
     <!-- Modal Filtro -->
     <div id="mdlFiltro" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -89,10 +109,9 @@
         </div>
     </div> 
 
-
-
-
-    <table class="table" id="tbProntuario">
+    <div id="tabela">
+    <!-- TABELA DE PRONTUARIOS -->
+     <table class="table" id="tbProntuario">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">CNS</th>
@@ -104,20 +123,20 @@
         <tbody>
 
         @foreach($prontuarios as $p)
-            <tr id="id_{{$p->getId()}}">
-                <th scope="row" id="cns_{{$p->getId()}}">{{$p->getId()}}</th>
-                    <td id="nome_{{$p->getId()}}">{{$p->getNomecompleto()}}</td>
+            <tr>
+                <th scope="row" id="cns_{{$p->getCns()}}">{{$p->getCns()}}</th>
+                    <td id="td" value="true">{{$p->getNomecompleto()}}</td>
                     <td>
-                        @if($p->getArmazenado() == 1)
-                            <img src="/img/check.svg" alt="armazenado" width="35px">
+                        @if($p->getArmazenado() == 'Sim')
+                            <img src="/img/check.svg" alt="armazenado" width="30px">
                         @endif
-                        @if($p->getArmazenado() == 0)
-                            <img src="/img/negative.svg" alt="armazenado" width="35px">
+                        @if($p->getArmazenado() == 'Não')
+                            <img src="/img/negative.svg" alt="armazenado" width="30px">
                         @endif
                     </td>
                     <td>
                     <!-- Botão Vizualizar -->
-                        <button type="button" class="btn" data-toggle="modal" data-target="#prontuarioModalVer_{{$p->getId()}}"><img src="/img/view.svg" alt="vizualizar" width="27px"></button>
+                        <button type="button" class="btn" data-toggle="modal" data-target="#prontuarioModalVer_{{$p->getId()}}"><img src="/img/view.svg" alt="vizualizar" width="23px"></button>
                             <div class="modal fade" id="prontuarioModalVer_{{$p->getId()}}" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -134,10 +153,10 @@
                                             <label for="nomecompleto"><i class="fas fa-user"></i> Nome Completo:</label>
                                             <h3 id="nomecompleto" style="color: black">{{$p->getNomecompleto()}}</h3>
                                             <label for="sexo"><i class="fas fa-genderless"></i> Sexo:</label>
-                                            @if($p->getSexo()== 'M')
+                                            @if($p->getSexo()== 'Masculino')
                                             <h3 id="sexo" style="color: blue">Masculino</h3>
                                             @endif
-                                            @if($p->getSexo()== 'F')
+                                            @if($p->getSexo()== 'Feminino')
                                             <h3 id="sexo" style="color: purple">Feminino</h3>
                                             @endif
                                             <label for="estante"><i class="fas fa-sort-numeric-up"></i> Nº Estante:</label>
@@ -145,10 +164,10 @@
                                             <label for="letra"><i class="fas fa-font"></i> Letra:</label>
                                             <h3 id="letra" style="color: blue">{{$p->getLetra()}}</h3>
                                             <label for="armazenado"><i class="fas fa-archive"></i> Armazenado?:</label>
-                                            @if($p->getArmazenado() == 1)
+                                            @if($p->getArmazenado() == 'Sim')
                                             <h3 id="armazenado" style="color: green">Sim</h3>
                                             @endif
-                                            @if($p->getArmazenado() == 0)
+                                            @if($p->getArmazenado() == 'Não')
                                             <h3 id="armazenado" style="color: red">Não</h3>
                                             @endif
                                             <div class="modal-footer">
@@ -160,8 +179,9 @@
                                 </div>
                             </div>
                     <!-- Fim Botão Vizualizar -->
-
-                        <button type="button" class="btn" data-toggle="modal" data-target="#prontuarioModal_{{$p->getId()}}"><img src="/img/edit.svg" alt="editar" width="27px"></button>
+                    
+                    <!-- Botão Editar -->
+                        <button type="button" class="btn" data-toggle="modal" data-target="#prontuarioModal_{{$p->getId()}}"><img src="/img/edit.svg" alt="editar" width="23px"></button>
                             <div class="modal fade" id="prontuarioModal_{{$p->getId()}}" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog">
                                 <div class="modal-content">
@@ -174,27 +194,34 @@
                                 <div class="modal-body">
                                     <form action="{{route('salvar')}}" method="POST">  
                                     @csrf
-                                        <!--<input type="hidden" value="" name="id"> -->
+                                        <input type="hidden" value="{{$p->getId()}}" name="id">
                                         <label for="cns"><i class="fas fa-id-card"></i> CNS:</label>
-                                        <input id="cns" class="form-control" name="id" value="{{$p->getId()}}">
+                                        <input id="cns" class="form-control" name="cns" value="{{$p->getCns()}}">
                                         <label for="nomecompleto"><i class="fas fa-user"></i> Nome Completo:</label>
                                         <input id="nomecompleto" class="form-control" name="nomecompleto" value="{{$p->getNomecompleto()}}">
                                         <label for="sexo"><i class="fas fa-genderless"></i> Sexo:</label>
                                         <select id="sexo" class="form-control" name="sexo" value="{{$p->getSexo()}}">
-                                            <option>{{$p->getArmazenado()}}</option>
-                                            <option value="M">Masculino</option>
-                                            <option value="F">Feminino</option>
+                                            <option>{{$p->getSexo()}}</option>
+                                            @if($p->getSexo() == 'Feminino')
+                                                <option value="Masculino">Masculino</option>
+                                            @endif
+                                            @if($p->getSexo() == 'Masculino')
+                                                <option value="Feminino">Feminino</option>
+                                            @endif
                                         </select>
                                         <label for="estante"><i class="fas fa-sort-numeric-up"></i> Nº Estante:</label>
                                         <input id="estante" class="form-control" name="estante" style="width: 100px" value="{{$p->getEstante()}}">
                                         <label for="letra"><i class="fas fa-font"></i> Letra:</label>
                                         <input id="letra" class="form-control" name="letra" style="width: 100px" value="{{$p->getLetra()}}">
                                         <label for="armazenado"><i class="fas fa-archive"></i> Armazenado?:</label>
-                                        <label for="armazenado"> Armazenado?:</label>
                                         <select id="armazenado" class="form-control" name="armazenado" style="width: 100px">
                                             <option>{{$p->getArmazenado()}}</option>
-                                            <option value="1">Sim</option>
-                                            <option value="0">Não</option>
+                                            @if($p->getArmazenado() == 'Não')
+                                                <option value="Sim">Sim</option>
+                                            @endif
+                                            @if($p->getArmazenado() == 'Sim')
+                                                <option value="Não">Não</option>
+                                            @endif
                                         </select>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -206,9 +233,10 @@
                                 </div>
                             </div>
                         </div>
+                    <!-- Fim Botão Editar -->
 
                     <!-- Botão Deletar -->
-                        <button type="button" class="btn" name="prontuarioDelete" prontuario="{{$p->getId()}}" data-toggle="modal" data-target="#mdlProntuarioDeletar_{{$p->getId()}}"><img src="/img/trash.svg" width="27px"/></button>
+                        <button type="button" class="btn" name="prontuarioDelete" prontuario="{{$p->getId()}}" data-toggle="modal" data-target="#mdlProntuarioDeletar_{{$p->getId()}}"><img src="/img/trash.svg" width="23px"/></button>
                             <div id="mdlProntuarioDeletar_{{$p->getId()}}" class="modal fade" tabindex="-1" role="dialog">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <form method="POST" enctype="multipart/form-data" action="{{route('deletar')}}">
@@ -225,8 +253,8 @@
                                             <p>Tem certeza que deseja excluir este Prontuario?</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="submit" class="btn btn-danger">Confimar</button>
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-danger">Confimar</button>
                                         </div>
                                         </div>
                                     </form>
@@ -239,6 +267,7 @@
         @endforeach
         </tbody>
     </table>
+    </div>
 </div>
 
 <!-- Modal Cadastro -->
@@ -254,17 +283,16 @@
       <div class="modal-body">
         <form action="{{route('salvar')}}" method="POST">  
         @csrf
-            <!--<input type="hidden" value="" name="id"> -->
+            <input type="hidden" value="" name="id">
             <label for="cns"><i class="fas fa-id-card"></i> CNS:</label>
-            <input id="cns" class="form-control" name="id">
+            <input id="cns" class="form-control" name="cns">
             <label for="nomecompleto"><i class="fas fa-user"></i> Nome Completo:</label>
             <input id="nomecompleto" class="form-control" name="nomecompleto">
             <label for="sexo"><i class="fas fa-genderless"></i> Sexo:</label>
             <select id="sexo" class="form-control" name="sexo">
                 <option>Selecione</option>
-                <option value="M">Masculino</option>
-                <option value="F">Feminino</option>
-                <option value="S">Não definido</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
             </select>
             <label for="estante"><i class="fas fa-sort-numeric-up"></i> Nº Estante:</label>
             <input id="estante" class="form-control" name="estante" style="width: 100px">
@@ -273,8 +301,8 @@
             <label for="armazenado"><i class="fas fa-archive"></i> Armazenado?:</label>
             <select id="armazenado" class="form-control" name="armazenado" style="width: 100px">
                 <option>Selecione</option>
-                <option value="1">Sim</option>
-                <option value="0">Não</option>
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
             </select>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>

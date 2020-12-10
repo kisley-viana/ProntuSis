@@ -36,7 +36,6 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li><a class="nav-link" href="{{route('admin')}}"><i class="fas fa-list"></i> Lista</a></li>
-                        <li><a class="nav-link" href="#"><i class="fas fa-search-location"></i> Consulta</a></li>
                         <li><a class="nav-link" href="" data-toggle="modal" data-target="#prontuarioModal"><i class="fas fa-plus-square" ></i> Cadastrar</a></li>
                     </ul>
 

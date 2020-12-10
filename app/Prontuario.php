@@ -22,7 +22,7 @@ class Prontuario extends Model
 
     //Getters
     public function getId(){ return $this->attributes[Prontuario::$id]; }
-    //public function getCns(){ return $this->attributes[Prontuario::$cns]; }
+    public function getCns(){ return $this->attributes[Prontuario::$cns]; }
     public function getNomecompleto() { return $this->attributes[Prontuario::$nomecompleto]; }
     public function getSexo(){ return $this->attributes[Prontuario::$sexo]; }
     public function getEstante(){ return $this->attributes[Prontuario::$estante]; }
@@ -30,8 +30,8 @@ class Prontuario extends Model
     public function getArmazenado(){ return $this->attributes[Prontuario::$armazenado]; }
 
     //Setters
-    public function setId($valor){ return $this->attributes[Prontuario::$id] = $valor; }
-    //public function setCns($valor){ return $this->attributes[Prontuario::$cns] = $valor; }
+    //public function setId($valor){ return $this->attributes[Prontuario::$id] = $valor; }
+    public function setCns($valor){ return $this->attributes[Prontuario::$cns] = $valor; }
     public function setNomecompleto($valor){ return $this->attributes[Prontuario::$nomecompleto] = $valor; }
     public function setSexo($valor){ return $this->attributes[Prontuario::$sexo] = $valor; }
     public function setEstante($valor){ return $this->attributes[Prontuario::$estante] = $valor; }

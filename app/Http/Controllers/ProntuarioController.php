@@ -27,8 +27,7 @@ class ProntuarioController extends Controller
         {
             $prontuarios = Prontuario::findOrNew($request->id);
             
-            //$prontuarios->setCns($request->cns);
-            $prontuarios->setId($request->id);
+            $prontuarios->setCns($request->cns);
             $prontuarios->setNomecompleto($request->nomecompleto);
             $prontuarios->setSexo($request->sexo);
             $prontuarios->setEstante($request->estante);
@@ -36,7 +35,7 @@ class ProntuarioController extends Controller
             $prontuarios->setArmazenado($request->armazenado);
             $prontuarios->save();
             //$msg='<div class='.'"alert alert-success"'. 'role="alert"'.'"Prontuario salvo com sucesso!"'.'<div>';
-            //
+            
             session()->flash('sucesso','Prontuario salvo com sucesso');
             return redirect()->route('admin');
             
@@ -45,6 +44,7 @@ class ProntuarioController extends Controller
         {
             session()->flash('erro','Houve um erro ao salvar o Prontuario. Reveja os dados e tente novamente!');
             return redirect()->route('admin');
+            //return dd($ex);
         }
     }
 
