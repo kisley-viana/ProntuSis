@@ -232,7 +232,7 @@
                                 
                                 </div>
                             </div>
-                        </div>
+                            </div>
                     <!-- Fim Botão Editar -->
 
                     <!-- Botão Deletar -->

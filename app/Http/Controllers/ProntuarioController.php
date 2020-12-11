@@ -15,9 +15,16 @@ class ProntuarioController extends Controller
     //Listagem de Prontuarios
     public function listar()
     {
-        $prontuarios = Prontuario::orderBy('nomecompleto','asc')->get();
+        try
+        {
+            $prontuarios = Prontuario::orderBy('nomecompleto','asc')->get();
         
-        return view('paginas.admin',['prontuarios'=>$prontuarios]);
+            return view('paginas.admin',['prontuarios'=>$prontuarios]);
+        }
+        catch(\Exception $ex)
+        {
+            return redirect()->route('login');
+        }
     }
 
     //Salvar Dados
@@ -104,6 +111,21 @@ class ProntuarioController extends Controller
             //session()->flash('erro','E');
            // return redirect()->route('admin');
            return dd($ex);
+        }
+    }
+
+    //Página de imprimir
+    public function imprime(Request $request){
+        try
+        {
+            $letra = $request->letra;
+            $prontuarios = Prontuario::where('nomecompleto','like',$letra)
+            ->orderBy('nomecompleto','asc')->get();
+            return view('paginas.imprime',['prontuarios'=>$prontuarios]);
+        }
+        catch(\Exception $ex)
+        {
+            return dd($ex); 
         }
     }
 }
