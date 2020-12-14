@@ -23,6 +23,7 @@ class ProntuarioController extends Controller
         }
         catch(\Exception $ex)
         {
+            session()->flash('erro', 'Erro ao listar dados. Contate o Programador');
             return redirect()->route('login');
         }
     }
@@ -49,7 +50,8 @@ class ProntuarioController extends Controller
         }
         catch(\Exception $ex)
         {
-            session()->flash('erro','Houve um erro ao salvar o Prontuario. Reveja os dados e tente novamente!');
+            session()->flash('erro','Houve um erro ao salvar o Prontuario. Reveja os dados e tente novamente! ou  Contate o Programador ');
+            session()->flash('codErro','Erro: '.$ex);
             return redirect()->route('admin');
             //return dd($ex);
         }
@@ -69,7 +71,8 @@ class ProntuarioController extends Controller
         }
         catch(\Exception $ex)
         {   
-            session()->flash('erro','Erro ao deletar Prontuario. Erro: ',$ex);
+            session()->flash('erro','Erro ao deletar Prontuario. Contate o Programador');
+            session()->flash('codErro','Erro: '.$ex);
             return redirect()->route('admin');
         }
     }
@@ -79,19 +82,26 @@ class ProntuarioController extends Controller
     {
         try
         {
-                $pesquisa = ($request->id_pesquisa);
-                $prontuarios = Prontuario::where('id',$pesquisa)
-                ->orderBy('nomecompleto','asc')->get();
-
-                if($prontuarios != null){
-                    session()->flash('sucesso', 'Prontuário(s) encontrados!');
+                $pesquisa = $request->pesquisa;
+                if(is_numeric ($pesquisa))
+                {
+                    $prontuarios = Prontuario::where('cns',$pesquisa)
+                    ->orderBy('cns','asc')->get();
                     return view('paginas.admin',['prontuarios'=> $prontuarios]);
-                    
                 }
+                if(is_string($pesquisa))
+                {
+                    $pesquisa = $pesquisa.'%';
+                    $prontuarios = Prontuario::where('nomecompleto','like',$pesquisa)
+                    ->orderBy('nomecompleto','asc')->get();
+                    return view('paginas.admin',['prontuarios'=> $prontuarios]);
+                }
+             
         }
         catch(\Exception $ex)
         {
-            session()->flash('erro','Erro na busca. Erro: '+$ex);
+            session()->flash('erro','Erro na pesquisa. Contate o Programador');
+            session()->flash('codErro','Erro: '.$ex);
             return redirect()->route('admin');
         }
     }
@@ -108,8 +118,8 @@ class ProntuarioController extends Controller
         }
         catch(\Exception $ex)
         {
-            //session()->flash('erro','E');
-           // return redirect()->route('admin');
+            session()->flash('erro','Erro ao realizar filtragem. Contate o Programador.');
+            session()->flash('codErro','Erro: '.$ex);
            return dd($ex);
         }
     }
@@ -118,14 +128,16 @@ class ProntuarioController extends Controller
     public function imprime(Request $request){
         try
         {
-            $letra = $request->letra;
+            $letra = $request->letra.'%';
             $prontuarios = Prontuario::where('nomecompleto','like',$letra)
             ->orderBy('nomecompleto','asc')->get();
             return view('paginas.imprime',['prontuarios'=>$prontuarios]);
         }
         catch(\Exception $ex)
         {
-            return dd($ex); 
+            session()->flash('Erro ao imprimir. Contate o Programador.');
+            session()->flash('codErro','Erro: '.$ex);
+            return redirect()->route('admin'); 
         }
     }
 }

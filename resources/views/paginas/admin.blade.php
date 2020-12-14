@@ -14,6 +14,9 @@
     <div class="alert alert-danger" role="alert" id="msg">
         {{ session('erro') }}
     </div>
+    <div class="alert alert-danger" role="alert" id="codErro">
+        {{ session('codErro') }}
+    </div>
 
 @endif
 
@@ -21,27 +24,21 @@
 
     <h1><strong>PRONTUARIOS</strong></h1>
 
+    <!-- Pesquisa -->
     <form class="form-inline" action="{{route('pesquisa')}}" method="GET">
         <div class="form-group mx-sm-1 mb-2">
-            <input type="text" class="form-control" placeholder="Digite o CNS" style="width: 20rem" name="id_pesquisa">
+            <input type="text" class="form-control" placeholder="Digite o Nome ou CNS" style="width: 20rem" name="pesquisa">
         </div>
         <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-search"></i> Pesquisar</button>
     </form>
 
     <button class="btn" data-toggle="modal" data-target="#mdlFiltro" style="background-color: green; color: white"><i class="fas fa-filter"></i> Filtro</button>
     <!-- Botão Imprimir -->
-    <button class="btn btn-primary" id="btnImprimir" onclick="imprimir()"><i class="fas fa-print"></i> Imprimir</button><br><br>
+    <!-- <button class="btn btn-primary" id="btnImprimir" onclick="imprimir()"><i class="fas fa-print"></i> Imprimir</button><br><br>
+    -->
+    <button class="btn btn-primary" data-toggle="modal" data-target="#mdlImprime"><i class="fas fa-print"></i> Imprimir</button>
     
-    <script>
-        function imprimir(){
-            var conteudo = document.getElementById('tabela').innerHTML,
-            tela_impressao = window.open('about:blank');
-
-            tela_impressao.document.write(conteudo);
-            tela_impressao.window.print();
-            tela_impressao.window.close();
-        }
-    </script>
+    <!-- Mensagem de erro "Sem dados encontrados" -->
     <script>
         $(document).ready(function() {
             var coluna = $('#td').attr('value');
@@ -51,8 +48,59 @@
             }
         });
     </script>
-    
-    
+    <!-- Modal Imprimir -->
+    <div id="mdlImprime" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form method="GET" enctype="multipart/form-data" action="{{route('imprime')}}">
+                @csrf
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Imprimir por Letra</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="de">Escolha a letra:</label>
+                    <select class="form-control" id="de" name="letra">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="G">G</option>
+                        <option value="H">H</option>
+                        <option value="I">I</option>
+                        <option value="J">J</option>
+                        <option value="K">K</option>
+                        <option value="L">L</option>
+                        <option value="M">M</option>
+                        <option value="N">N</option>
+                        <option value="O">O</option>
+                        <option value="P">P</option>
+                        <option value="Q">Q</option>
+                        <option value="R">R</option>
+                        <option value="S">S</option>
+                        <option value="T">T</option>
+                        <option value="U">U</option>
+                        <option value="V">V</option>
+                        <option value="W">W</option>
+                        <option value="X">X</option>
+                        <option value="Y">Y</option>
+                        <option value="Z">Z</option>
+
+                    </select>
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" onclick="imprimir()">Confimar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div> 
     
     
     <!-- Modal Filtro -->
@@ -114,10 +162,10 @@
      <table class="table" id="tbProntuario">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">CNS</th>
-                <th scope="col">Nome Completo</th>
-                <th scope="col">Armazenado</th>
-                <th scope="col">Ações</th>
+                <th scope="col"><i class="fas fa-id-card"></i> CNS</th>
+                <th scope="col"><i class="fas fa-user"></i> Nome Completo</th>
+                <th scope="col"><i class="fas fa-archive"></i> Armazenado</th>
+                <th scope="col"><i class="fas fa-hand-sparkles"></i> Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -225,7 +273,7 @@
                                         </select>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                            <button type="submit" class="btn btn-success">Salvar</button>
+                                            <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Salvar</button>
                                         </div>
                                     </form>
                                 </div>
@@ -306,7 +354,7 @@
             </select>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-success">Salvar</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Salvar</button>
             </div>
         </form>
       </div>

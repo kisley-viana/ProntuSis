@@ -33,7 +33,5 @@ Route::post('admin/deletar','ProntuarioController@deletar')->name('deletar');
 Route::get('/admin/pesquisa','ProntuarioController@pesquisa')->name('pesquisa');
 //Filtro
 Route::get('/admin/filtro','ProntuarioController@filtro')->name('filtro');
-
-Route::get('/admin/imprime', function(){
-    return view('paginas.imprime');
-});
+//Imprime
+Route::get('/admin/imprime', 'ProntuarioController@imprime')->name('imprime');
