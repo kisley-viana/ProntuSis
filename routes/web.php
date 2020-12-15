@@ -35,3 +35,4 @@ Route::get('/admin/pesquisa','ProntuarioController@pesquisa')->name('pesquisa');
 Route::get('/admin/filtro','ProntuarioController@filtro')->name('filtro');
 //Imprime
 Route::get('/admin/imprime', 'ProntuarioController@imprime')->name('imprime');
+Route::get('/admin/imprime/todos','ProntuarioController@imprimeTodos')->name('imprime.todos');

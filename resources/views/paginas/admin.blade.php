@@ -61,8 +61,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <label for="de">Escolha a letra:</label>
-                    <select class="form-control" id="de" name="letra">
+                    <label for="letra">Escolha a letra:</label>
+                    <select class="form-control" id="letra" name="letra">
                         <option value="A">A</option>
                         <option value="B">B</option>
                         <option value="C">C</option>
@@ -91,10 +91,12 @@
                         <option value="Z">Z</option>
 
                     </select>
+                    <br>
+                    <a href="{{route('imprime.todos')}}"><strong><i class="fas fa-clipboard-list"></i> Imprimir todos cadastrados</strong></a>
                    
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" onclick="imprimir()">Confimar</button>
+                    <button type="submit" class="btn btn-primary" onclick="imprimir()"><i class="fas fa-check-square"></i> Confimar</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                 </div>
                 </div>
@@ -149,7 +151,7 @@
                    
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Confimar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-check-square"></i> Confimar</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                 </div>
                 </div>
@@ -197,7 +199,7 @@
                                     <div class="modal-body">
                                             <!--<input type="hidden" value="" name="id"> -->
                                             <label for="cns"><i class="fas fa-id-card"></i> CNS:</label>
-                                            <h3 id="cns" style="color: blue">{{$p->getId()}}</h3>
+                                            <h3 id="cns" style="color: blue">{{$p->getCns()}}</h3>
                                             <label for="nomecompleto"><i class="fas fa-user"></i> Nome Completo:</label>
                                             <h3 id="nomecompleto" style="color: black">{{$p->getNomecompleto()}}</h3>
                                             <label for="sexo"><i class="fas fa-genderless"></i> Sexo:</label>

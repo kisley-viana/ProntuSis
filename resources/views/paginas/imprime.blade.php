@@ -10,6 +10,15 @@
 @endsection
 @section('content')
 
+<script>
+        $(document).ready(function() {
+            var coluna = $('#td').attr('value');
+            console.log(coluna);
+            if(coluna != 'true'  ){
+                $('#divPrincipal').append('<div class="alert alert-danger" role="alert"><strong> Não foram encontrados prontuários</strong></div>');
+            }
+        });
+</script>
 
 <div class="container" id="divPrincipal">
     <table class="table" >
@@ -18,14 +27,16 @@
                 <th><i class="fas fa-id-card"></i> CNS</th>
                 <th><i class="fas fa-user"></i> Nome Completo</th>
                 <th><i class="fas fa-sort-numeric-up"></i> Nº Estante</th>
+                <th><i class="fas fa-font"></i> Letra</th>
             </tr>
         </thead>
         <tbody>
             @foreach($prontuarios as $p)
             <tr>
-                <td>{{$p->getCns()}}</td>
-                <td>{{$p->getNomecompleto()}}</td>
-                <td>{{$p->getEstante()}}</td>
+                <td id="td" value="true"><strong style="font-size:20px">{{$p->getCns()}}</strong></td>
+                <td><strong style="font-size:18px">{{$p->getNomecompleto()}}</strong></td>
+                <td><strong style="font-size:20px">{{$p->getEstante()}}</strong></td>
+                <td><strong style="font-size:20px">{{$p->getLetra()}}</strong></td>
             </tr>
             @endforeach
         </tbody>

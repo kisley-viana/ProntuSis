@@ -10,7 +10,10 @@ class ProntuarioController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+       // $this->middleware('guest')->except('logout');
+
     }
+    
 
     //Listagem de Prontuarios
     public function listar()
@@ -33,7 +36,7 @@ class ProntuarioController extends Controller
     {
         try
         {
-            $prontuarios = Prontuario::findOrNew($request->id);
+            $prontuarios = Prontuario::findOrNew($request->id)->orWhere('cns',$request->cns);
             
             $prontuarios->setCns($request->cns);
             $prontuarios->setNomecompleto($request->nomecompleto);
@@ -125,7 +128,8 @@ class ProntuarioController extends Controller
     }
 
     //Página de imprimir
-    public function imprime(Request $request){
+    public function imprime(Request $request)
+    {
         try
         {
             $letra = $request->letra.'%';
@@ -138,6 +142,22 @@ class ProntuarioController extends Controller
             session()->flash('Erro ao imprimir. Contate o Programador.');
             session()->flash('codErro','Erro: '.$ex);
             return redirect()->route('admin'); 
+        }
+    }
+
+    //Página de imprimir todos
+    public function imprimeTodos()
+    {
+        try
+        {
+            $prontuarios = Prontuario::orderBy('nomecompleto','asc')->get();
+            return view('paginas.imprime',['prontuarios'=>$prontuarios]);
+        }
+        catch(\Exception $ex)
+        {
+            session()->flash('erro','Erro ao imprimir todos. Contante o Programador.');
+            session()->flash('codErro','Erro: '.$ex);
+            return redirect()->route('admin');
         }
     }
 }
