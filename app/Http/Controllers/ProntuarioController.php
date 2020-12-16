@@ -36,7 +36,7 @@ class ProntuarioController extends Controller
     {
         try
         {
-            $prontuarios = Prontuario::findOrNew($request->id)->orWhere('cns',$request->cns);
+            $prontuarios = Prontuario::findOrNew($request->id);
             
             $prontuarios->setCns($request->cns);
             $prontuarios->setNomecompleto($request->nomecompleto);
@@ -59,6 +59,23 @@ class ProntuarioController extends Controller
             //return dd($ex);
         }
     }
+    //Verificador de CNS
+    public function verificaCns(Request $request)
+    {
+        $cns = $request->cns;
+        $verifica = Prontuario::where('cns',$cns)->get();
+        if($verifica->num_rows > 0)
+        {
+          echo '<strong style="color: red">CNS já existente</strong>';
+        }
+        else
+        {
+          echo '<strong style="color: green">Cns disponível para cadastro</strong>';
+        }
+
+    }
+
+
 
     //Deletar
     public function deletar(Request $request)

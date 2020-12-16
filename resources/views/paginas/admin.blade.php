@@ -158,7 +158,8 @@
             </form>
         </div>
     </div> 
-
+<br>
+<br>
     <div id="tabela">
     <!-- TABELA DE PRONTUARIOS -->
      <table class="table" id="tbProntuario">
@@ -336,6 +337,14 @@
             <input type="hidden" value="" name="id">
             <label for="cns"><i class="fas fa-id-card"></i> CNS:</label>
             <input id="cns" class="form-control" name="cns">
+            
+            
+            <!-- Verificador de CNS -->
+            <script>
+
+            
+            </script>
+            
             <label for="nomecompleto"><i class="fas fa-user"></i> Nome Completo:</label>
             <input id="nomecompleto" class="form-control" name="nomecompleto">
             <label for="sexo"><i class="fas fa-genderless"></i> Sexo:</label>

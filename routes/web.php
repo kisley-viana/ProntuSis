@@ -27,7 +27,9 @@ Route::get('/', function() {
 Route::get('/admin','ProntuarioController@listar')->name('admin');
 Route::post('/admin/salvar','ProntuarioController@salvar')->name('salvar');
 Route::post('admin/deletar','ProntuarioController@deletar')->name('deletar');
-//Route::get('admin/vizualizar','ProntuarioController@listar')->name('vizualizar');
+
+//Verificador de CNS
+Route::get('admin/salvar/verificador','ProntuarioController@verificaCns')->name('verificaCns');
 
 //Pesquisa
 Route::get('/admin/pesquisa','ProntuarioController@pesquisa')->name('pesquisa');
