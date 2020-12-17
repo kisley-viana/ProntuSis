@@ -335,15 +335,13 @@
         <form action="{{route('salvar')}}" method="POST">  
         @csrf
             <input type="hidden" value="" name="id">
-            <label for="cns"><i class="fas fa-id-card"></i> CNS:</label>
-            <input id="cns" class="form-control" name="cns">
-            
+            <label for="Cns"><i class="fas fa-id-card"></i> CNS:</label>
+            <input id="Cns" class="form-control" name="cns">
+            <input type="button" name="verificar" id="verificar" value="verificar" />
+            <div id="resultado"></div>
             
             <!-- Verificador de CNS -->
-            <script>
-
             
-            </script>
             
             <label for="nomecompleto"><i class="fas fa-user"></i> Nome Completo:</label>
             <input id="nomecompleto" class="form-control" name="nomecompleto">
@@ -373,6 +371,20 @@
     </div>
   </div>
 </div>
+<script>
+    $(function(){ // declaro o início do jquery
+        $("input[name='verificar']").on('click', function(){//botão para disparar a ação
+            var numCns = $("input[id='Cns']").val();
+            console.log(numCns);
+            $.get('admin/salvar/verificador?_token='+'{{csrf_token()}}&'+'numCns=' + numCns,function(data){
+                //$('#resultado').html(data);//onde vou escrever o resultado
+                alert(data);
+            });
+        });
+    });// fim do jquery
+</script>
+
+
 
 <!-- Modal Deletar 
 <div id="mdlProntuarioDeletar" class="modal fade" tabindex="-1" role="dialog">

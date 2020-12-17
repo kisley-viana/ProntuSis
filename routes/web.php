@@ -18,10 +18,12 @@
 
 Auth::routes();
 
-//Route::get('/','HomeController@index')->name('login');
+//Route::get('/','ProntuarioController@index')->name('login');
 Route::get('/', function() {
-    return view('paginas.login');
+   return view('paginas.login');
 });
+
+
 //Admin
 //Route::get('/admin','HomeController@index')->name('admin');
 Route::get('/admin','ProntuarioController@listar')->name('admin');
@@ -29,7 +31,7 @@ Route::post('/admin/salvar','ProntuarioController@salvar')->name('salvar');
 Route::post('admin/deletar','ProntuarioController@deletar')->name('deletar');
 
 //Verificador de CNS
-Route::get('admin/salvar/verificador','ProntuarioController@verificaCns')->name('verificaCns');
+Route::get('admin/salvar/verificador','ProntuarioController@verificaCns');
 
 //Pesquisa
 Route::get('/admin/pesquisa','ProntuarioController@pesquisa')->name('pesquisa');
