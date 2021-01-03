@@ -10,14 +10,15 @@ class ProntuarioController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-       // $this->middleware('guest')->except('logout');
-
+       //$this->middleware('guest')->except('/logout');
+       
     }
     
 
     //Listagem de Prontuarios
     public function listar()
     {
+
         try
         {
             $prontuarios = Prontuario::orderBy('nomecompleto','asc')->get();
@@ -62,16 +63,18 @@ class ProntuarioController extends Controller
     //Verificador de CNS
     public function verificaCns(Request $request)
     {
-        $cns = $request->numCns;
-        $resultado = Prontuario::where('cns',$cns)->get();
+        $cns = $request->cns;
+        $resultado = Prontuario::where('cns',$cns)->count();
 
-        if( $resultado->num_rows > 0 ) {//se retornar algum resultado
-            return 'Já existe!';
+        if( $resultado > 0 ) {//se retornar algum resultado
+            echo json_encode(array('cns'=>'CNS já existente!'));
         } 
         else 
         {
-            return 'Não existe ainda!';
+            echo json_encode(array('cns'=>'CNS Disponível!'));
         }
+        
+        
     }
 
 
@@ -104,7 +107,8 @@ class ProntuarioController extends Controller
                 $pesquisa = $request->pesquisa;
                 if(is_numeric ($pesquisa))
                 {
-                    $prontuarios = Prontuario::where('cns',$pesquisa)
+                    $pesquisa = $pesquisa.'%';
+                    $prontuarios = Prontuario::where('cns','like',$pesquisa)
                     ->orderBy('cns','asc')->get();
                     return view('paginas.admin',['prontuarios'=> $prontuarios]);
                 }
@@ -148,10 +152,32 @@ class ProntuarioController extends Controller
     {
         try
         {
-            $letra = $request->letra.'%';
-            $prontuarios = Prontuario::where('nomecompleto','like',$letra)
-            ->orderBy('nomecompleto','asc')->get();
-            return view('paginas.imprime',['prontuarios'=>$prontuarios]);
+            $letra = $request->letra;
+            $letra = (string) $letra;
+            $estante = $request->estante;
+            $estante = (string) $estante;
+           
+            //SE LETRA NÃO FOR VAZIA E ESTANTE SIM
+            if($letra != "" && $estante == "")
+            {
+                $prontuarios = Prontuario::where('letra',$letra)
+                ->orderBy('nomecompleto','asc')->get();
+                return view('paginas.imprime',['prontuarios'=>$prontuarios]);
+            }
+            //SE LETRA FOR VAZIA E ESTANTE NÃO
+            if($letra == "" && $estante != "")
+            {
+                $prontuarios = Prontuario::where('estante',$estante)
+                ->orderBy('nomecompleto','asc')->get();
+                return view('paginas.imprime',['prontuarios'=>$prontuarios]);
+            }
+            //SE AMBAS NÃO FOREM VAZIAS
+            if($letra!= "" && $estante != "")
+            {
+                $prontuarios = Prontuario::where('letra',$letra)->where('estante',$estante)
+                ->orderBy('nomecompleto','asc')->get();
+                return view('paginas.imprime',['prontuarios'=>$prontuarios]);
+            }
         }
         catch(\Exception $ex)
         {

@@ -34,10 +34,7 @@
 
     <button class="btn" data-toggle="modal" data-target="#mdlFiltro" style="background-color: green; color: white"><i class="fas fa-filter"></i> Filtro</button>
     <!-- Botão Imprimir -->
-    <!-- <button class="btn btn-primary" id="btnImprimir" onclick="imprimir()"><i class="fas fa-print"></i> Imprimir</button><br><br>
-    -->
     <button class="btn btn-primary" data-toggle="modal" data-target="#mdlImprime"><i class="fas fa-print"></i> Imprimir</button>
-    
     <!-- Mensagem de erro "Sem dados encontrados" -->
     <script>
         $(document).ready(function() {
@@ -48,6 +45,7 @@
             }
         });
     </script>
+
     <!-- Modal Imprimir -->
     <div id="mdlImprime" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -55,14 +53,15 @@
                 @csrf
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Imprimir por Letra</h5>
+                    <h5 class="modal-title">Imprimir</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <label for="letra">Escolha a letra:</label>
+                    <label for="letra">Imprimir por Letra:</label>
                     <select class="form-control" id="letra" name="letra">
+                        <option value=""></option>
                         <option value="A">A</option>
                         <option value="B">B</option>
                         <option value="C">C</option>
@@ -91,6 +90,9 @@
                         <option value="Z">Z</option>
 
                     </select>
+                    <br>
+                    <label for="estante">Digite o Nº da Estante:</label>
+                    <input class="form-control" id="estante" style="width: 100px" name="estante"></input>
                     <br>
                     <a href="{{route('imprime.todos')}}"><strong><i class="fas fa-clipboard-list"></i> Imprimir todos cadastrados</strong></a>
                    
@@ -337,11 +339,7 @@
             <input type="hidden" value="" name="id">
             <label for="Cns"><i class="fas fa-id-card"></i> CNS:</label>
             <input id="Cns" class="form-control" name="cns">
-            <input type="button" name="verificar" id="verificar" value="verificar" />
-            <div id="resultado"></div>
-            
-            <!-- Verificador de CNS -->
-            
+            <div id="resultado"></div>            
             
             <label for="nomecompleto"><i class="fas fa-user"></i> Nome Completo:</label>
             <input id="nomecompleto" class="form-control" name="nomecompleto">
@@ -363,7 +361,7 @@
             </select>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Salvar</button>
+                <button type="submit" class="btn btn-success" id="botaoSubmit"><i class="fas fa-save"></i> Salvar</button>
             </div>
         </form>
       </div>
@@ -371,44 +369,43 @@
     </div>
   </div>
 </div>
-<script>
-    $(function(){ // declaro o início do jquery
-        $("input[name='verificar']").on('click', function(){//botão para disparar a ação
-            var numCns = $("input[id='Cns']").val();
-            console.log(numCns);
-            $.get('admin/salvar/verificador?_token='+'{{csrf_token()}}&'+'numCns=' + numCns,function(data){
-                //$('#resultado').html(data);//onde vou escrever o resultado
-                alert(data);
+
+<!-- SCRIPT VERIFICADOR DE CNS -->
+<script language="javascript">
+    $(function(){
+
+        $("#Cns").keyup(function(){
+            var cns = $(this).val();
+            console.log(cns);
+            $.ajax({
+            
+                url:"{{ route('verificadorCns') }}",
+                type:'GET',
+                data: $(this).serialize(),
+                    success: function(data){
+                    console.log(data);
+                    data = $.parseJSON(data);
+                    
+                    if(data.cns == "CNS já existente!")
+                    {
+                        $("#resultado").text(data.cns).css({"color":"red","font-weight":"bold"});
+                        $("#botaoSubmit").hide();
+                    }
+                    else
+                    {
+                        $("#resultado").text(data.cns).css({"color":"green","font-weight":"bold"});
+                        $("#botaoSubmit").show();
+
+                    }
+                    if(cns=="")
+                    {
+                        $("#resultado").text("");
+                    }
+                }
             });
         });
-    });// fim do jquery
+
+    });
 </script>
 
-
-
-<!-- Modal Deletar 
-<div id="mdlProntuarioDeletar" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form method="POST" enctype="multipart/form-data" action="{{route('deletar')}}">
-                @csrf
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Excluir Prontuario</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="id_prontuario_excluir" name="id_excluir"/>
-                    <p>Tem certeza que deseja excluir este Prontuario?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger">Confimar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                </div>
-                </div>
-            </form>
-        </div>
-</div>
--->
 @endsection

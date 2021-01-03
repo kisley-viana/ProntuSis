@@ -31,7 +31,7 @@ Route::post('/admin/salvar','ProntuarioController@salvar')->name('salvar');
 Route::post('admin/deletar','ProntuarioController@deletar')->name('deletar');
 
 //Verificador de CNS
-Route::get('admin/salvar/verificador','ProntuarioController@verificaCns');
+Route::get('admin/salvar/verificador','ProntuarioController@verificaCns')->name('verificadorCns');
 
 //Pesquisa
 Route::get('/admin/pesquisa','ProntuarioController@pesquisa')->name('pesquisa');

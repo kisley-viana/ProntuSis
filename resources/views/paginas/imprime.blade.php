@@ -1,13 +1,9 @@
 @extends('layouts.app')
-@section('js')
-    onload="imprimir()";
-@endsection
 
-@section('botoesEspeciais')
-    <br><div class="container">
-        <button class="btn btn-primary" onclick="imprimir()"><i class="fas fa-print"></i> Imprimir</button>
-    </div>
+@section('js')
+    onload="imprimir()"
 @endsection
+   
 @section('content')
 
 <script>
@@ -18,9 +14,15 @@
                 $('#divPrincipal').append('<div class="alert alert-danger" role="alert"><strong> Não foram encontrados prontuários</strong></div>');
             }
         });
+        
+
 </script>
 
+
 <div class="container" id="divPrincipal">
+<button class="btn btn-primary" onClick="imprimir()" id="btnImprime"><i class="fas fa-print"></i> Imprimir</button>
+<br>
+<br>
     <table class="table" >
         <thead class="table-dark">
             <tr>
@@ -44,7 +46,7 @@
 </div>
 
 <script>
-        function imprimir(){
+        /*function imprimir(){
             var conteudo = document.getElementById('divPrincipal').innerHTML,
             //tela_impressao = window.open('about:blank');
             tela_impressao = window.open('about:blank');
@@ -52,5 +54,14 @@
             tela_impressao.window.print();
             tela_impressao.window.close();
         }
+        */
+       $(function(){
+          $("#btnImprime").click(function(){
+            $("#btnImprime").hide();
+            window.print();
+            $("#btnImprime").show();
+          }); 
+       });
+       
     </script>
 @endsection

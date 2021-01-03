@@ -14,8 +14,12 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
-            return view('home');
+        /*if (! $request->expectsJson()) {
+            return view('paginas.login');
+        }
+        */
+        if(!$request->is('auth/login') && \Auth::guest()) {
+            return redirect('/auth/login');
         }
     }
 }
